@@ -17,10 +17,13 @@ Since I was having trouble finetuning on the original repository and I wanted to
 > **_NOTE:_** the following guide is thus written ONLY for reproducibility purposes on BUSI; the recommended and proper way to finetune stable diffusion is to directly use Justin Pinkney's repository and to follow their corresponding guide.
 > 
 ### _root_dir_
-Stable diffusion 1.5 was downloaded from the hugging face [page](https://huggingface.co/runwayml/stable-diffusion-v1-5/tree/main) (v1-5-pruned.ckpt) and placed in ```models/ldm/sdv1-5/```
+Stable Diffusion 1.5 was downloaded from the hugging face [page](https://huggingface.co/runwayml/stable-diffusion-v1-5/tree/main) (v1-5-pruned.ckpt) and placed in ```models/ldm/sdv1-5/```
+
+The following terminal command was executed to install all prerequisities: ```conda create environment.yaml```
+
 
 ### _simple.py_ 
-This file is used as is from Pinkney's repository; it facilitates the setup of the local dataset.
+This file is used from Pinkney's repository; it facilitates the setup of the local dataset. The HF class was removed since it was not used.
 
 ### _train.yaml_
 The ```pokemon.yaml``` file from Pinkey's repository was used and slightly modified. 
@@ -29,7 +32,7 @@ The learning rate was changed:
 ```python
 base_learning_rate: 1.0e-06
 ```
-The target class was changed to accomodate a local dataset. The dataset images were set up in the ```root_dir``` path and the prompts at the ```caption_file```
+The target class was changed to accomodate a local dataset. The dataset images and jsonl prompt files (provided in the fork, but should be placed elsewhere) were set up in a specific path:
 
 ```python
     batch_size: 2
@@ -60,7 +63,7 @@ This change is done to save only the weights:
       monitor: null
       save_weights_only: true # Only save the weights of checkpoint, this wasn't done for BUSI
 ```
-The following line was commented in order to avoid bugs:
+The following line was commented out order to avoid bugs:
 ```python
 #log_all_val: True
 ```
@@ -124,7 +127,7 @@ CUDA_VISIBLE_DEVICES=3 python main.py --base configs/stable-diffusion/train.yaml
 ```--scale_lr False``` can be used to make the lr equal to the base one defined in the config file. It was not used for the BUSI model and so the lr for BUSI became 2e-06
 
 ``` --seed 321 ``` can be used to set the seed number for training. The default one was used for BUSI which is 23.
-
+The models are saved in the ```logs``` folder.
 
 ## Sampling
 
@@ -154,8 +157,7 @@ Malignant:  [ 186, 210 ]
 
 Normal: [ 114, 133 ]  
 
-
-
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 > **_NOTE:_** the following masks were superimposed:
 
 Benign: 4, 25, 54, 58, 83, 92, 93, 98, 100, 163, 173, 181, 195, 315, 346
@@ -178,12 +180,7 @@ The following folder structure was made and the data was inserted in the corresp
 training/BUSI/source/
 training/BUSI/target/
 ```
-A prompts.json file was created in ```training/BUSI``` with the following format (the project json files are provided):
-  
-```
-{"source": "source/normal (1)_mask.png", "target": "target/normal (1).png", "prompt": "Ultrasound image of normal breast"}
-{"source": "source/normal (2)_mask.png", "target": "target/normal (2).png", "prompt": "Ultrasound image of normal breast"}
-```
+A prompts.json file was created in ```training/BUSI``` (the project json files are provided):
 
 ### _tutorial_dataset.py_
 The following lines were adjusted to include the correct path:
@@ -208,11 +205,11 @@ target = cv2.resize(target, (512,512), interpolation= cv2.INTER_LINEAR) # https:
 
 ### _root_dir_
 
-Stable diffusion 1.5 was downloaded from the hugging face [page](https://huggingface.co/runwayml/stable-diffusion-v1-5/tree/main) (v1-5-pruned.ckpt) and placed in ```./models/```
+A model from SD that was finetuned was placed in ```./models/```
 
 The following terminal command, which initializes a CN model, was executed:
 ```python
-python tool_add_control.py ./models/v1-5-pruned.ckpt ./models/old_busi_control_sd15_ini.ckpt
+python tool_add_control.py ./models/YourModelFromSD.ckpt ./models/old_busi_control_sd15_ini.ckpt
 ```
 
 ### _logger.py_
