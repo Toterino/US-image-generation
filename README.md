@@ -1,4 +1,4 @@
-# Ultrasound Image Generation using Latent Diffusion Model
+# Ultrasound Image Generation using Latent Diffusion Models
 
 Code used for following paper: [...]
 
@@ -10,20 +10,21 @@ Forked SD: https://github.com/Toterino/stable-diffusion
 Forked CN: https://github.com/Toterino/ControlNet
 
 # Stable Diffusion
-The Official Stable Diffusion [repository](https://github.com/CompVis/stable-diffusion) was forked and used in conjunction with Justin Pinkney's (a ML researcher) intuitive [repository](https://github.com/justinpinkney/stable-diffusion) and their [guide](https://github.com/LambdaLabsML/examples/tree/main/stable-diffusion-finetuning) on finetuning. 
+The Official Stable Diffusion [repository](https://github.com/CompVis/stable-diffusion) was forked and used in conjunction with Justin Pinkney's (a ML researcher) [repository](https://github.com/justinpinkney/stable-diffusion) and their [guide](https://github.com/LambdaLabsML/examples/tree/main/stable-diffusion-finetuning) on finetuning. 
 
-Since I was having trouble finetuning on the original repository and I wanted to understand what made Pinkney's code work, I slowly added a few pieces of their code to the official repository, slightly tweaked them and made it work. The entire BUSI dataset was used.
+Since I was having trouble finetuning on the original repository and I wanted to understand what made Pinkney's code work, I slowly added a few pieces of their code to the official code, slightly tweaked them and made it work. The entire BUSI dataset was used.
 
 > **_NOTE:_** the following guide is thus written ONLY for reproducibility purposes on BUSI; the recommended and proper way to finetune stable diffusion is to directly use Justin Pinkney's repository and to follow their corresponding guide.
 > 
 ### _root_dir_
 Stable Diffusion 1.5 was downloaded from the hugging face [page](https://huggingface.co/runwayml/stable-diffusion-v1-5/tree/main) (v1-5-pruned.ckpt) and placed in ```models/ldm/sdv1-5/```
+The kl-f8 autoencoder was downloaded and placed in the correct folder.
 
 The following terminal command was executed to install all prerequisities: ```conda create environment.yaml```
 
 
 ### _simple.py_ 
-This file is used from Pinkney's repository; it facilitates the setup of the local dataset. The HF class was removed since it was not used.
+This file is used from Pinkney's repository; it facilitates the setup of the local dataset. The HF class was removed which is not a necessary change to make.
 
 ### _train.yaml_
 The ```pokemon.yaml``` file from Pinkey's repository was used and slightly modified. 
@@ -175,7 +176,7 @@ cv2.imwrite('./fixed_masks/malignant (53)_mask.png', finalim) # https://stackove
 ```
 
 ### _root_dir_
-The following folder structure was made and the data was inserted in the corresponding folders:
+The following folder structure was made and the data was inserted in the corresponding folders (source is condition, target is gt):
 ```
 training/BUSI/source/
 training/BUSI/target/
@@ -253,6 +254,8 @@ CUDA_VISIBLE_DEVICES=3 python tutorial_train.py
 # Sampling
 
 ### _sampling.py_
+The code was mostly taken from gradio_seg2image.py
+
 The path on line 89 was adjusted:
 ```python
 model.load_state_dict(load_state_dict('./lightning_logs/version_4/checkpoints/epoch=85-step=14999.ckpt', location='cuda'))
@@ -277,4 +280,13 @@ sample_img(source_1, prompt, "", "", 8, 50, False, guidance_scale, 1, samples_ro
 The following terminal command was executed:
 ```python
 CUDA_VISIBLE_DEVICES=3 python sampling.py
+```
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Preparing the CAMUS Dataset:
+```python
+img.append(nibabel.load(dir + "/" + files[ind[i]]).get_fdata()) #https://neuraldatascience.io/8-mri/nifti.html
+if (keyb == "mask"):
+    img[i] = 255 * (img[i] - img[i].min()) / (img[i].max() - img[i].min())
+img[i] = Image.fromarray(img[i]).convert("L").rotate(-90, expand = 1) # https://stackoverflow.com/questions/16720682/pil-cannot-write-mode-f-to-jpeg and https://www.geeksforgeeks.org/python-pil-paste-and-rotate-method/
+img[i].save(files[ind[i]] + ".png") # https://stackoverflow.com/questions/902761/saving-a-numpy-array-as-an-image  
 ```
