@@ -9,6 +9,8 @@ Forked SD: https://github.com/Toterino/stable-diffusion
 
 Forked CN: https://github.com/Toterino/ControlNet
 
+> **_NOTE:_** the hyperparameters / paths used in the code below are slightly different than the forked repositories; it is indicated clearly
+
 # Stable Diffusion
 The Official Stable Diffusion [repository](https://github.com/CompVis/stable-diffusion) was forked and used in conjunction with Justin Pinkney's (a ML researcher) [repository](https://github.com/justinpinkney/stable-diffusion) and their [guide](https://github.com/LambdaLabsML/examples/tree/main/stable-diffusion-finetuning) on finetuning. 
 
@@ -29,7 +31,7 @@ This file is used from Pinkney's repository; it facilitates the setup of the loc
 ### _train.yaml_
 The ```pokemon.yaml``` file from Pinkey's repository was used and slightly modified. 
 
-The learning rate was changed:
+The learning rate was changed. For BUSI, 1.0e-06 was used but --scale_lr was True (became 2.0e-06); it is equivalent to making the base_learning_rate 2.0e-06 and setting --scale_lr to False
 ```python
 base_learning_rate: 1.0e-06
 ```
@@ -94,7 +96,8 @@ parser.add_argument( # taken from https://github.com/justinpinkney/stable-diffus
     )
 ```
 ```python
-if not opt.finetune_from == "":  # Taken from https://github.com/justinpinkney/stable-diffusion/blob/main/main.py
+# Taken from https://github.com/justinpinkney/stable-diffusion/blob/main/main.py
+if not opt.finetune_from == "":  
             print(f"Attempting to load state from {opt.finetune_from}")
             old_state = torch.load(opt.finetune_from)
             if "state_dict" in old_state:
@@ -256,7 +259,7 @@ CUDA_VISIBLE_DEVICES=3 python tutorial_train.py
 ### _sampling.py_
 The code was mostly taken from gradio_seg2image.py
 
-The path on line 89 was adjusted:
+The path on line 89 was adjusted (version 4 is BUSI):
 ```python
 model.load_state_dict(load_state_dict('./lightning_logs/version_4/checkpoints/epoch=85-step=14999.ckpt', location='cuda'))
 ```
