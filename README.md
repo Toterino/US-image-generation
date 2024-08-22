@@ -26,7 +26,7 @@ The following terminal command was executed to install all prerequisities: ```co
 
 
 ### _simple.py_ 
-This file is used from Pinkney's repository; it facilitates the setup of the local dataset. The HF class was removed which is not a necessary change to make.
+This file is used from Pinkney's repository; it facilitates the setup of the local dataset. The HF class was removed which is not a necessary change to make. The ext attribute in the FolderData class was changed to 'png'
 
 ### _train.yaml_
 The ```pokemon.yaml``` file from Pinkey's repository was used and slightly modified. 
