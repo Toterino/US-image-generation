@@ -47,7 +47,7 @@ The target class was changed to accomodate a local dataset. The dataset images a
         caption_file: ../data/BUSI_DATA/prompts.jsonl # prompts 
 ```
 
-The following change was made only for BUSI (removed for CAMUS):
+The following change was made only for BUSI (removed for CAMUS). This should work (not sure if its with the "" or not), but if there is a problem with the config file, try removing this section:
 ```python
 validation:
       target: ldm.data.simple.TextOnly
