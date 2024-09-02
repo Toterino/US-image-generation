@@ -16,7 +16,7 @@ The Official Stable Diffusion [repository](https://github.com/CompVis/stable-dif
 
 Since I was having trouble finetuning on the original repository and I wanted to understand what made Pinkney's code work, I slowly added a few pieces of their code to the official code, slightly tweaked them and made it work. The entire BUSI dataset was used.
 
-> **_NOTE:_** the following guide is thus written ONLY for reproducibility purposes on BUSI; the recommended and proper way to finetune stable diffusion is to directly use Justin Pinkney's repository and to follow their corresponding guide.
+> **_NOTE:_** the following guide is thus written ONLY for reproducibility purposes on BUSI; the recommended and proper way is to directly use Justin Pinkney's repository and to follow their corresponding guide.
 > 
 ### _root_dir_
 Stable Diffusion 1.5 was downloaded from the hugging face [page](https://huggingface.co/runwayml/stable-diffusion-v1-5/tree/main) (v1-5-pruned.ckpt) and placed in ```models/ldm/sdv1-5/```
