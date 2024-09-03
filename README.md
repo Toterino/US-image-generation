@@ -64,7 +64,7 @@ This change is done to save only the weights:
       every_n_train_steps: 10000 # Modified to our needs
       save_top_k: -1
       monitor: null
-      save_weights_only: true # Only save the weights of checkpoint, this wasn't done for BUSI
+      save_weights_only: true # Only save the weights of checkpoint, this wasn't done for BUSI https://lightning.ai/docs/pytorch/stable/api/lightning.pytorch.callbacks.ModelCheckpoint.html
 ```
 The following line was commented out order to avoid bugs:
 ```python
@@ -174,7 +174,7 @@ import cv2
 im1 = cv2.imread("./Dataset_BUSI_with_GT/malignant/malignant (53)_mask.png")
 im2 = cv2.imread("./Dataset_BUSI_with_GT/malignant/malignant (53)_mask_1.png")
 
-finalim = im1 + im2
+finalim = im1 + im2 # https://numpy.org/doc/stable/reference/generated/numpy.add.html
 cv2.imwrite('./fixed_masks/malignant (53)_mask.png', finalim) # https://stackoverflow.com/questions/69996609/how-to-save-png-images-with-opencv
 ```
 
@@ -287,7 +287,8 @@ CUDA_VISIBLE_DEVICES=3 python sampling.py
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Preparing the CAMUS Dataset:
 ```python
-img.append(nibabel.load(dir + "/" + files[ind[i]]).get_fdata()) #https://neuraldatascience.io/8-mri/nifti.html
+# https://discuss.pytorch.org/t/how-to-load-all-the-nii-from-the-directory-without-augmentation-using-pytorch-dataloader/60938/5
+img.append(nibabel.load(dir + "/" + files[ind[i]]).get_fdata()) #https://neuraldatascience.io/8-mri/nifti.html and https://stackoverflow.com/questions/61833375/loading-a-nifti-through-nibabel-and-using-the-shape-function
 if (keyb == "mask"):
     img[i] = 255 * (img[i] - img[i].min()) / (img[i].max() - img[i].min())
 img[i] = Image.fromarray(img[i]).convert("L").rotate(-90, expand = 1) # https://stackoverflow.com/questions/16720682/pil-cannot-write-mode-f-to-jpeg and https://www.geeksforgeeks.org/python-pil-paste-and-rotate-method/
