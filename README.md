@@ -1,5 +1,6 @@
 # Ultrasound Image Generation using Latent Diffusion Models
 
+
 Code used for following paper: [...]
 
 Datasets: [BUSI](https://scholar.cu.edu.eg/?q=afahmy/pages/dataset), [CAMUS](https://www.creatis.insa-lyon.fr/Challenge/camus/)
@@ -9,7 +10,7 @@ Forked SD: https://github.com/Toterino/stable-diffusion
 
 Forked CN: https://github.com/Toterino/ControlNet
 
-> **_NOTE:_** the hyperparameters / paths used in the code below are slightly different than the forked repositories; it is indicated clearly
+## Sometimes, there are additional comments and different paths used in the code below; these are changes made to explain more and to be suited for BUSI specifically
 
 # Stable Diffusion
 The Official Stable Diffusion [repository](https://github.com/CompVis/stable-diffusion) was forked and used in conjunction with Justin Pinkney's (a ML researcher) [repository](https://github.com/justinpinkney/stable-diffusion) and their [guide](https://github.com/LambdaLabsML/examples/tree/main/stable-diffusion-finetuning) on finetuning. 
