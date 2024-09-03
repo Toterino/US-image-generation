@@ -190,7 +190,7 @@ A prompts.json file was created in ```training/BUSI``` (the project json files a
 The following lines were adjusted to include the correct path:
   
 ```python 
-with open('./training/BUSI/prompt_busi.json', 'rt') as f:
+with open('./training/BUSI/prompt_busi.json', 'rt') as f: # directory leading to the prompts
 ```
 
 ```python 
@@ -229,9 +229,9 @@ The hyperparameters and code were adjusted for BUSI:
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "3" # Use only GPU #3
 
-resume_path = './models/old_busi_control_sd15_ini.ckpt' # We changed the path accordingly
+resume_path = './models/old_busi_control_sd15_ini.ckpt' # Path to the init model
 batch_size = 4 
-logger_freq = 5000 # We changed the logging frequency
+logger_freq = 5000 
 learning_rate = 1e-5 
 sd_locked = True 
 only_mid_control = False
@@ -246,7 +246,7 @@ call_checkpoint = ModelCheckpoint( # https://lightning.ai/docs/pytorch/stable/ap
 
 dataloader = DataLoader(dataset, num_workers=0, batch_size=batch_size, shuffle=True)
 logger = ImageLogger(batch_frequency=logger_freq)
-trainer = pl.Trainer(gpus=1, precision=32, callbacks=[logger, call_checkpoint]) # You have to add call_checkpoint here
+trainer = pl.Trainer(gpus=1, precision=32, callbacks=[logger, call_checkpoint]) 
 ```
 The following terminal command was executed and the models were saved in the ```lightninglogs``` folder
 ```python
@@ -269,9 +269,9 @@ prompt = "Ultrasound image of normal breast" # Change the prompt here
 guidance_scale = 5 # You can play with the guidance scale, we kept it at 5
 samples_row = 4 # how many samples per row, this is just for the matplotlib grid
 
-# Change the condition here
+# mask
 source_1 = cv2.resize(cv2.imread("./inference/BUSI/masks/benign (412)_mask.png"), (512,512), interpolation= cv2.INTER_LINEAR) # https://learnopencv.com/image-resizing-with-opencv/
-# Change the ground truth here
+# gt
 target_1 = cv2.resize(cv2.imread("./inference/BUSI/gt/benign (412).png"), (512,512), interpolation= cv2.INTER_LINEAR)
 
 sample_img(source_1, prompt, "", "", 8, 50, False, guidance_scale, 1, samples_row)
